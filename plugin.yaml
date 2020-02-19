@@ -1,0 +1,56 @@
+name: rundeck-ldap-plugin
+rundeckPluginVersion: 2.0
+author: Rundeck Dev
+description: Describe your plugin here
+rundeckCompatibilityVersion: 3.x
+targetHostCompatibility: unix
+license: Apache 2.0
+tags:
+    - script
+    - WorkflowNodeStep
+date: 2020-02-19T14:36:57.103Z
+version: 1.0.0
+providers:
+    - name: rundeck-ldap-plugin
+      service: WorkflowNodeStep
+      title: rundeck-ldap-plugin
+      description: Ldap plugin components
+      plugin-type: script
+      script-interpreter: python
+      script-file: list-ldap-users.py
+      script-args: --ldapServer ${config.ldapServer} --bindUser ${config.bindUser} --bindPassword ${config.bindPassword} --baseDn ${config.baseDn}  --criteria ${config.criteria}
+      config:
+        - type: String
+          name: baseDn
+          title: 'Base DN'
+          description: 'Base DN'
+          required: true
+        - type: String
+          name: criteria
+          title: 'Filter'
+          description: 'Filter'
+          required: true
+        - type: String
+          name: ldapServer
+          title: 'Ldap Server'
+          description: 'Ldap Server'
+          required: true
+          renderingOptions:
+            groupName: Connection
+        - type: String
+          name: bindUser
+          title: 'Bind User'
+          description: 'Bind User'
+          required: true
+          renderingOptions:
+            groupName: Connection
+        - type: String
+          name: bindPassword
+          title: Bind Password
+          description: Bind Password
+          renderingOptions:
+            groupName: Connection
+            selectionAccessor: "STORAGE_PATH"
+            valueConversion: "STORAGE_PATH_AUTOMATIC_READ"
+            storage-path-root: "keys"
+            storage-file-meta-filter: "Rundeck-data-type=password"
